@@ -1,28 +1,20 @@
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta content="width=device-width" name="viewport" />
-		<title>
-			Astro
-		</title>
-	</head>
-</html>
-<body>
-	<a href="/">Home</a>
-	<a href="/about">About</a>
-	<a href="/blog">Blog</a>
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
 
-	<h1>
-		My Astro Learning Blog
-	</h1>
+const pageTitle = 'My Astro Learning Blog'
+
+const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }))
+---
+
+<BaseLayout pageTitle={pageTitle}>
 	<p>
 		This is where I will post about my journey learning Astro.
 	</p>
 	<ul>
-		<li>
-			<a href="/posts/post-1">Post 1</a>
-			<a href="/posts/post-2">Post 2</a>
-			<a href="/posts/post-3">Post 3</a>
-		</li>
+		{allPosts.map((post: any) => <li>
+			<a href={post.url}>
+				{post.frontmatter.title}
+			</a>
+		</li>)}
 	</ul>
-</body>
+</BaseLayout>
